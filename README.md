@@ -7,3 +7,27 @@
 
 It allows for conditional execution of code fragments more beautiful and testable. 
 Line code with no indentation prevents appearance of errors and improves readability.
+
+Installation
+------------
+
+Installation using composer:
+
+```
+composer require andydune/conditional-execution 
+```
+Or if composer didn't install globally:
+```
+php composer.phar require andydune/conditional-execution
+```
+Or edit your `composer.json`:
+```
+"require" : {
+     "andydune/conditional-execution": "^1"
+}
+
+```
+And execute command:
+```
+php composer.phar update
+```
