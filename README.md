@@ -1,3 +1,9 @@
 # ConditionalExecution
+
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Packagist Version](https://img.shields.io/packagist/v/andydune/conditional-execution.svg?style=flat-square)](https://packagist.org/packages/andydune/conditional-execution)
+[![Total Downloads](https://img.shields.io/packagist/dt/andydune/conditional-execution.svg?style=flat-square)](https://packagist.org/packages/andydune/conditional-execution)
+
+
 It allows for conditional execution of code fragments more beautiful and testable. 
 Line code with no indentation prevents appearance of errors and improves readability.
