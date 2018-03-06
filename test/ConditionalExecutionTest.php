@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * PHP version 5.6, 7.0 and 7.1
+ * PHP version 5.6, 7.X
  *
  * @package andydune/conditional-execution
  * @link  https://github.com/AndyDune/ConditionalExecution for the canonical source repository
@@ -15,7 +15,6 @@ namespace AndyDuneTest\ConditionalExecution;
 
 use AndyDune\ConditionalExecution\ConditionHolder;
 use AndyDune\ConditionalExecution\Example\CheckSome;
-use function foo\func;
 use PHPUnit\Framework\TestCase;
 
 
@@ -135,7 +134,39 @@ class ConditionalExecutionTest extends TestCase
         $this->assertEquals('self', $instance->doIt());
     }
 
-    public function doItIfTrue()
+    public function testTriggers()
+    {
+        $trigger = 0;
+        $instance = new ConditionHolder();
+        $instance->triggerIfTrue(function () use (&$trigger){
+            $trigger+= 10;
+        });
+        $instance->triggerIfFalse(function () use (&$trigger){
+            $trigger+= 100;
+        });
+        $instance->doIt();
+        $this->assertEquals(10, $trigger);
+
+        $instance->add('');
+
+        $instance->doIt();
+        $this->assertEquals(110, $trigger);
+
+        $instance->doIt();
+        $this->assertEquals(210, $trigger);
+
+        $instance->triggerIfTrue(function () use (&$trigger){
+            $trigger+= 10;
+        });
+
+        $instance->add('1')->bindOr();
+
+        $instance->doIt();
+        $this->assertEquals(230, $trigger);
+
+    }
+
+        public function doItIfTrue()
     {
         return 'self';
     }

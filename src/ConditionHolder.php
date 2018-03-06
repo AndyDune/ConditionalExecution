@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * PHP version 5.6, 7.0 and 7.1
+ * PHP version 5.6, 7.X
  *
  * @package andydune/conditional-execution
  * @link  https://github.com/AndyDune/ConditionalExecution for the canonical source repository
@@ -14,6 +14,8 @@
 namespace AndyDune\ConditionalExecution;
 
 
+use function foo\func;
+
 class ConditionHolder
 {
     protected $conditions = [];
@@ -21,6 +23,9 @@ class ConditionHolder
 
     protected $functionToExecuteIfTrue = null;
     protected $functionToExecuteIfFalse = null;
+
+    protected $functionToTriggerIfTrue = [];
+    protected $functionToTriggerIfFalse = [];
 
     public function add($condition)
     {
@@ -52,15 +57,37 @@ class ConditionHolder
         return $this;
     }
 
+    public function triggerIfTrue(callable $function)
+    {
+        $this->functionToTriggerIfTrue[] = $function;
+        return $this;
+    }
+
+    public function triggerIfFalse(callable $function)
+    {
+        $this->functionToTriggerIfFalse[] = $function;
+        return $this;
+    }
 
     public function doIt()
     {
         if ($this->check()) {
+            if ($this->functionToTriggerIfTrue) {
+                array_walk($this->functionToTriggerIfTrue, function ($function, $key) {
+                    call_user_func($function);
+                });
+            }
             if (!$this->functionToExecuteIfTrue) {
                 return null;
             }
             return call_user_func($this->functionToExecuteIfTrue);
         } else {
+            if ($this->functionToTriggerIfFalse) {
+                array_walk($this->functionToTriggerIfFalse, function ($function, $key) {
+                    call_user_func($function);
+                });
+            }
+
             if (!$this->functionToExecuteIfFalse) {
                 return null;
             }

@@ -1,13 +1,15 @@
 <?php
 /**
- * ----------------------------------------------
- * | Author: Andrey Ryzhov (Dune) <info@rznw.ru> |
- * | Site: www.rznw.ru                           |
- * | Phone: +7 (4912) 51-10-23                   |
- * | Date: 06.03.2018                            |
- * -----------------------------------------------
  *
+ * PHP version 5.6, 7.X
+ *
+ * @package andydune/conditional-execution
+ * @link  https://github.com/AndyDune/ConditionalExecution for the canonical source repository
+ * @license   http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @author Andrey Ryzhov  <info@rznw.ru>
+ * @copyright 2018 Andrey Ryzhov
  */
+
 
 namespace AndyDune\ConditionalExecution\Example;
 
