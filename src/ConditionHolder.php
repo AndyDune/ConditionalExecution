@@ -59,12 +59,12 @@ class ConditionHolder
             if (!$this->functionToExecuteIfTrue) {
                 return null;
             }
-            return ($this->functionToExecuteIfTrue)();
+            return call_user_func($this->functionToExecuteIfTrue);
         } else {
             if (!$this->functionToExecuteIfFalse) {
                 return null;
             }
-            return ($this->functionToExecuteIfFalse)();
+            return call_user_func($this->functionToExecuteIfFalse);
         }
     }
 
