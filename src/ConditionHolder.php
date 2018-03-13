@@ -114,6 +114,9 @@ class ConditionHolder
         $array = $this->conditions;
 
         $result = (bool)array_shift($array);
+        if ($result instanceof ConditionHolder) {
+            $result = $result->check();
+        }
 
         foreach($array as $condition) {
             if ($condition instanceof ConditionHolder) {
