@@ -138,11 +138,11 @@ class ConditionalExecutionTest extends TestCase
     {
         $trigger = 0;
         $instance = new ConditionHolder();
-        $instance->triggerIfTrue(function () use (&$trigger){
-            $trigger+= 10;
+        $instance->triggerIfTrue(function () use (&$trigger) {
+            $trigger += 10;
         });
-        $instance->triggerIfFalse(function () use (&$trigger){
-            $trigger+= 100;
+        $instance->triggerIfFalse(function () use (&$trigger) {
+            $trigger += 100;
         });
         $instance->doIt();
         $this->assertEquals(10, $trigger);
@@ -155,8 +155,8 @@ class ConditionalExecutionTest extends TestCase
         $instance->doIt();
         $this->assertEquals(210, $trigger);
 
-        $instance->triggerIfTrue(function () use (&$trigger){
-            $trigger+= 10;
+        $instance->triggerIfTrue(function () use (&$trigger) {
+            $trigger += 10;
         });
 
         $instance->add('1')->bindOr();
@@ -166,8 +166,26 @@ class ConditionalExecutionTest extends TestCase
 
     }
 
-        public function doItIfTrue()
+    public function doItIfTrue()
     {
         return 'self';
+    }
+
+    public function testNegative()
+    {
+        $instance = new ConditionHolder();
+        $instance->executeIfTrue(function () {
+            return true;
+        });
+        $instance->executeIfFalse(function () use (&$trigger) {
+            return false;
+        });
+        $instance->add('');
+
+        $this->assertFalse($instance->doIt());
+
+        $instance->setNegative();
+        $this->assertTrue($instance->doIt());
+
     }
 }
