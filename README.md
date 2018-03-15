@@ -69,3 +69,33 @@ $instanceTotal->add($instanceOr)
 
 $result = $instanceTotal->doIt(); // yes, do it!
 ```
+
+Methods
+------------
+
+### add($condition)
+
+It adds condition to a queue. Condition is not check immediately. 
+
+
+Benefit
+------------
+
+## Simple add or delete conditions
+
+You don't need to count brackets. Add, remove conditions is simple.
+```php
+use AndyDune\ConditionalExecution\ConditionHolder;
+
+$instance = new ConditionHolder();
+$instance->add($val1 > $val2);
+$instance->add($someObject->isGood());
+
+$instance->check(); // true
+
+$instance->add('');
+$instance->check(); // false
+
+$instance->bindOr();
+$instance->check(); // true
+``` 
