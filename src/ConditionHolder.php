@@ -14,8 +14,8 @@ namespace AndyDune\ConditionalExecution;
 
 class ConditionHolder
 {
+    use CheckTrait;
     protected $conditions = [];
-    protected $bindAnd = true;
 
     protected $functionToExecuteIfTrue = null;
     protected $functionToExecuteIfFalse = null;
@@ -23,35 +23,10 @@ class ConditionHolder
     protected $functionToTriggerIfTrue = [];
     protected $functionToTriggerIfFalse = [];
 
-    protected $negative = false;
 
     public function add($condition)
     {
         $this->conditions[] = $condition;
-        return $this;
-    }
-
-    public function bindAnd()
-    {
-        $this->bindAnd = true;
-        return $this;
-    }
-
-    public function bindOr()
-    {
-        $this->bindAnd = false;
-        return $this;
-    }
-
-    /**
-     *
-     *
-     * @param bool $flag
-     * @return $this
-     */
-    public function setNegative($flag = true)
-    {
-        $this->negative = $flag;
         return $this;
     }
 
@@ -114,14 +89,14 @@ class ConditionHolder
         $array = $this->conditions;
 
         $result = array_shift($array);
-        if ($result instanceof ConditionHolder) {
+        if ($result instanceof ConditionHolder or $result instanceof CheckValue) {
             $result = $result->check();
         }
-        
+
         $result = (bool)$result;
 
         foreach($array as $condition) {
-            if ($condition instanceof ConditionHolder) {
+            if ($condition instanceof ConditionHolder or $condition instanceof CheckValue) {
                 $condition = $condition->check();
             }
             if ($this->bindAnd) {
