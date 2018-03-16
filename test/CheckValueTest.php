@@ -22,15 +22,15 @@ class CheckValueTest extends TestCase
     public function testAlone()
     {
         $checkValue = new CheckValue('rzn');
-        $checkValue->equalTo('rzn1');
+        $checkValue->isEqualTo('rzn1');
         $this->assertFalse($checkValue->check());
 
         $checkValue = new CheckValue('rzn');
-        $checkValue->equalTo('rzn');
+        $checkValue->isEqualTo('rzn');
         $this->assertTrue($checkValue->check());
 
         $checkValue = new CheckValue('1');
-        $checkValue->equalTo(1, false);
+        $checkValue->isEqualTo(1, false);
         $this->assertTrue($checkValue->check());
 
         $checkValue->isArray();
@@ -38,37 +38,37 @@ class CheckValueTest extends TestCase
 
 
         $checkValue = new CheckValue('1');
-        $checkValue->equalTo(1);
+        $checkValue->isEqualTo(1);
         $this->assertFalse($checkValue->check());
 
 
         $checkValue = new CheckValue(['ab', 'ba']);
-        $checkValue->haveValue('ab');
+        $checkValue->isHaveValue('ab');
         $this->assertTrue($checkValue->check());
 
-        $checkValue->haveValue('ba');
+        $checkValue->isHaveValue('ba');
         $this->assertTrue($checkValue->check());
 
-        $checkValue->haveValue('abbb');
+        $checkValue->isHaveValue('abbb');
         $this->assertFalse($checkValue->check());
 
 
         $checkValue = new CheckValue(new CheckSome());
-        $checkValue->instanceOf(CheckSome::class);
+        $checkValue->isInstanceOf(CheckSome::class);
         $this->assertTrue($checkValue->check());
 
 
         $checkValue = new CheckValue('12');
-        $checkValue->inArray(23);
+        $checkValue->isInArray(23);
         $this->assertFalse($checkValue->check());
 
         $checkValue = new CheckValue('12');
-        $checkValue->inArray([12]);
+        $checkValue->isInArray([12]);
         $this->assertTrue($checkValue->check());
 
         $checkValue = new CheckValue('12');
-        $checkValue->inArray(23);
-        $checkValue->inArray(12);
+        $checkValue->isInArray(23);
+        $checkValue->isInArray(12);
         $this->assertFalse($checkValue->check());
 
         $checkValue->bindOr();
@@ -79,8 +79,8 @@ class CheckValueTest extends TestCase
     public function testWithConditionHolder()
     {
         $checkValue = new CheckValue('12');
-        $checkValue->inArray(23);
-        $checkValue->inArray([12, 45]);
+        $checkValue->isInArray(23);
+        $checkValue->isInArray([12, 45]);
         $condition = new ConditionHolder();
         $condition->add($checkValue);
 

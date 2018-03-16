@@ -69,7 +69,7 @@ class CheckValue
         return $this;
     }
 
-    public function inArray($array)
+    public function isInArray($array)
     {
         $this->checkFunctions[] = function ($value) use ($array) {
             if (!is_array($array)) {
@@ -80,7 +80,7 @@ class CheckValue
         return $this;
     }
 
-    public function equalTo($checkValue, $strong = true)
+    public function isEqualTo($checkValue, $strong = true)
     {
         $this->checkFunctions[] = function ($value) use ($checkValue, $strong) {
             if ($strong) {
@@ -98,7 +98,7 @@ class CheckValue
      * @param $checkValue
      * @return $this
      */
-    public function haveValue($checkValue)
+    public function isHaveValue($checkValue)
     {
         $this->checkFunctions[] = function ($value) use ($checkValue) {
             if (!is_array($value)) {
@@ -123,7 +123,7 @@ class CheckValue
         return $this;
     }
 
-    public function instanceOf($checkValue)
+    public function isInstanceOf($checkValue)
     {
         if (is_object($checkValue)) {
             $checkValue = get_class($checkValue);
