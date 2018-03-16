@@ -77,6 +77,22 @@ Methods
 
 It adds condition to a queue. Condition is not check immediately. 
 
+### bindAnd()
+
+Change bind of conditions to AND logic. AND is used as default. 
+
+### bindOr()
+
+Change bind of conditions to OR logic. 
+
+### check()
+
+It executes check of all collected conditions.  
+
+### doIt()
+
+It checks of all collected conditions and execute appropriate function and triggers.  
+
 
 Benefit
 ------------
