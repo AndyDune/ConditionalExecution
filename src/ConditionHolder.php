@@ -30,14 +30,39 @@ class ConditionHolder
         return $this;
     }
 
-    public function executeIfTrue(callable $function)
+    public function cleanConditions()
     {
+        $this->conditions = [];
+        return $this;
+    }
+
+    /**
+     * @param callable|ConditionHolder $function
+     * @return ConditionHolder
+     */
+    public function executeIfTrue($function)
+    {
+        if ($function instanceof self) {
+            $function = function ($value = null) use ($function) {
+                return $function->doIt($value);
+            };
+        }
+
         $this->functionToExecuteIfTrue = $function;
         return $this;
     }
 
-    public function executeIfFalse(callable $function)
+    /**
+     * @param callable|ConditionHolder $function
+     * @return ConditionHolder
+     */
+    public function executeIfFalse($function)
     {
+        if ($function instanceof self) {
+            $function = function ($value = null) use ($function) {
+                return $function->doIt($value);
+            };
+        }
         $this->functionToExecuteIfFalse = $function;
         return $this;
     }
@@ -54,9 +79,9 @@ class ConditionHolder
         return $this;
     }
 
-    public function doIt()
+    public function doIt($value = null)
     {
-        if ($this->check()) {
+        if ($this->check($value)) {
             if ($this->functionToTriggerIfTrue) {
                 array_walk($this->functionToTriggerIfTrue, function ($function, $key) {
                     call_user_func($function);
@@ -65,7 +90,7 @@ class ConditionHolder
             if (!$this->functionToExecuteIfTrue) {
                 return null;
             }
-            return call_user_func($this->functionToExecuteIfTrue);
+            return call_user_func($this->functionToExecuteIfTrue, $value);
         } else {
             if ($this->functionToTriggerIfFalse) {
                 array_walk($this->functionToTriggerIfFalse, function ($function, $key) {
@@ -76,11 +101,11 @@ class ConditionHolder
             if (!$this->functionToExecuteIfFalse) {
                 return null;
             }
-            return call_user_func($this->functionToExecuteIfFalse);
+            return call_user_func($this->functionToExecuteIfFalse, $value);
         }
     }
 
-    public function check()
+    public function check($value = null)
     {
         // no conditions - to do anyway
         if (!$this->conditions) {
@@ -90,16 +115,21 @@ class ConditionHolder
 
         $result = array_shift($array);
         if ($result instanceof ConditionHolder or $result instanceof CheckValue) {
-            $result = $result->check();
+            $result = $result->check($value);
+        } else if (is_callable($result)) {
+            $result = $result($value);
         }
 
         $result = (bool)$result;
 
         foreach($array as $condition) {
             if ($condition instanceof ConditionHolder or $condition instanceof CheckValue) {
-                $condition = $condition->check();
+                $condition = $condition->check($value);
             }
             if ($this->bindAnd) {
+                if (is_callable($condition)) {
+                    $condition = $condition($value);
+                }
                 $result = ($result and $condition);
                 if (!$result) {
                     // don't need next check
@@ -108,6 +138,9 @@ class ConditionHolder
                 continue;
             }
 
+            if (is_callable($condition)) {
+                $condition = $condition($value);
+            }
             $result = ($result or $condition);
 
             if ($result) {

@@ -15,6 +15,7 @@ namespace AndyDuneTest\ConditionalExecution;
 
 use AndyDune\ConditionalExecution\ConditionHolder;
 use AndyDune\ConditionalExecution\Example\CheckSome;
+use function foo\func;
 use PHPUnit\Framework\TestCase;
 
 
@@ -186,6 +187,44 @@ class ConditionalExecutionTest extends TestCase
 
         $instance->setNegative();
         $this->assertTrue($instance->doIt());
+
+    }
+
+    public function testChain()
+    {
+        $x = 5;
+        $instanceNext = new ConditionHolder();
+        $instanceNext->add(function ($value) {
+            if ($value > 2) {
+                return true;
+            }
+            return false;
+        });
+        $instanceNext->executeIfTrue(function () {
+            return 'Y';
+        });
+
+        $instanceNext->executeIfFalse(function () {
+            return 'N';
+        });
+
+        $instance = new ConditionHolder();
+        $instance->executeIfFalse(function () {
+           return 1;
+        });
+        $instance->executeIfTrue($instanceNext);
+
+        $instance->add($x == 10);
+        $this->assertEquals(1, $instance->doIt());
+
+        $instance->cleanConditions();
+
+        $x = 3;
+        $instance->add($x < 10);
+        $this->assertEquals('Y', $instance->doIt($x));
+        $x = 1;
+        $this->assertEquals('N', $instance->doIt($x));
+
 
     }
 }
