@@ -15,7 +15,6 @@ namespace AndyDuneTest\ConditionalExecution;
 
 use AndyDune\ConditionalExecution\ConditionHolder;
 use AndyDune\ConditionalExecution\Example\CheckSome;
-use function foo\func;
 use PHPUnit\Framework\TestCase;
 
 
