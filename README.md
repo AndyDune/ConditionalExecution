@@ -115,3 +115,42 @@ $instance->check(); // false
 $instance->bindOr();
 $instance->check(); // true
 ``` 
+
+Execute functions in list for get first result 
+------------
+
+```php
+use AndyDune\ConditionalExecution\GetFirstSuccessResult;
+$instance = new GetFirstSuccessResult();
+$instance->add(function () {
+    return '';
+});
+$instance->add(function () {
+    return 'two';
+});
+
+$instance->get(); // resturns 'two'
+```
+
+With params:
+
+```php
+$instance = new GetFirstSuccessResult();
+$instance->add(function ($string, $length = 5) {
+    if (strlen($string) < $length) {
+        return $string . '<';
+    }
+    return false;
+});
+$instance->add(function ($string, $length = 5) {
+    if (strlen($string) > $length) {
+        return $string . '>';
+    }
+    return false;
+});
+
+$instance->get('two', 4); // returns 'two<'
+$instance->get('two', 2); // returns 'two>'
+$instance->get('onetwo', 4); // returns onetwo>
+$instance->get('tw', 2); returns false
+```
