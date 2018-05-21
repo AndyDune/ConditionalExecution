@@ -75,7 +75,7 @@ Methods
 
 ### add($condition)
 
-It adds condition to a queue. Condition is not check immediately. 
+It adds condition to a queue. Condition is not check immediately. It can be callable.
 
 ### bindAnd()
 
@@ -115,6 +115,35 @@ $instance->check(); // false
 $instance->bindOr();
 $instance->check(); // true
 ``` 
+
+## Closure as condition and params
+
+You can use closure as condition. Function can receive params witch was inserted with `doIt` or `check` methods.
+
+```php
+$instance = new ConditionHolder();
+$instance->add(function ($value) {
+    if ($value > 2) {
+        return true;
+    }
+    return false;
+});
+$instance->executeIfTrue(function () {
+    return 'Y';
+});
+
+$instance->executeIfFalse(function () {
+    return 'N';
+});
+
+
+$instance->doIt(3); // returns 'Y'
+$instance->chack(3); // returns true
+$instance->doIt(1); // returns 'N'
+$instance->chack(1); // returns false
+
+```
+
 
 Execute functions in list for get first result 
 ------------
