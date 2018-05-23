@@ -11,6 +11,7 @@
  */
 
 namespace AndyDune\ConditionalExecution;
+use AndyDune\ConditionalExecution\Check\CheckAbstract;
 
 class ConditionHolder
 {
@@ -114,7 +115,7 @@ class ConditionHolder
         $array = $this->conditions;
 
         $result = array_shift($array);
-        if ($result instanceof ConditionHolder or $result instanceof CheckValue) {
+        if ($result instanceof ConditionHolder or $result instanceof CheckAbstract) {
             $result = $result->check($value);
         } else if (is_callable($result)) {
             $result = $result($value);

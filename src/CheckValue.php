@@ -12,9 +12,9 @@
 
 
 namespace AndyDune\ConditionalExecution;
+use AndyDune\ConditionalExecution\Check\CheckAbstract;
 
-
-class CheckValue
+class CheckValue extends CheckAbstract
 {
     use CheckTrait;
     protected $value;
@@ -26,7 +26,7 @@ class CheckValue
         $this->value = $value;
     }
 
-    public function check()
+    public function check($value = null)
     {
         // no conditions - to do anyway
         if (!$this->checkFunctions) {
