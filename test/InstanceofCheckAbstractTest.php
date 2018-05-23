@@ -25,15 +25,15 @@ class InstanceofCheckAbstractTest extends TestCase
         ];
 
         $condition = new ConditionHolder();
-        $condition->add(new ArrayValueWithKeyNotEmpty($array));
-        $this->assertTrue($condition->check('one'));
+        $condition->add(new ArrayValueWithKeyNotEmpty('one'));
+        $this->assertTrue($condition->check($array));
         $condition->setNegative();
-        $this->assertFalse($condition->check('one'));
+        $this->assertFalse($condition->check($array));
 
         $condition = new ConditionHolder();
-        $condition->add(new ArrayValueWithKeyNotEmpty($array));
-        $this->assertFalse($condition->check('two'));
+        $condition->add(new ArrayValueWithKeyNotEmpty('two'));
+        $this->assertFalse($condition->check($array));
         $condition->setNegative();
-        $this->assertTrue($condition->check('two'));
+        $this->assertTrue($condition->check($array));
     }
 }

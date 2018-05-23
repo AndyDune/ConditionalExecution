@@ -17,18 +17,18 @@ namespace AndyDune\ConditionalExecution\Check;
 class ArrayValueWithKeyNotEmpty extends CheckAbstract
 {
 
-    protected $array;
+    protected $key;
 
-    public function __construct($array)
+    public function __construct($key)
     {
-        $this->array = $array;
+        $this->key = $key;
     }
 
     public function check($value)
     {
-        if (!array_key_exists($value, $this->array)) {
+        if (!array_key_exists($this->key, $value)) {
             return false;
         }
-        return (bool)$this->array[$value];
+        return (bool)$value[$this->key];
     }
 }
