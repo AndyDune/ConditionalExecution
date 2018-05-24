@@ -141,9 +141,29 @@ $instance->doIt(3); // returns 'Y'
 $instance->chack(3); // returns true
 $instance->doIt(1); // returns 'N'
 $instance->chack(1); // returns false
-
 ```
 
+## Check classes for checks of any complexity
+
+There is mechanic for checks of any complexity. It is describes as instance of `AndyDune\ConditionalExecution\Check\CheckAbstract`.
+
+For now there is one class `ArrayValueWithKeyNotEmpty` in library. You may create own custom classes.
+
+```php
+use AndyDune\ConditionalExecution\Check\ArrayValueWithKeyNotEmpty;
+use AndyDune\ConditionalExecution\ConditionHolder;
+
+// Source array 
+$array = [
+    'one' => 1
+];
+
+$condition = new ConditionHolder();
+$condition->add(new ArrayValueWithKeyNotEmpty('one'));
+$condition->check($array); // result is true
+$condition->setNegative();
+$condition->check($array);  // result is false
+```
 
 Execute functions in list for get first result 
 ------------
