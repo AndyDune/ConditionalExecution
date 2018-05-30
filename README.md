@@ -147,7 +147,11 @@ $instance->chack(1); // returns false
 
 There is mechanic for checks of any complexity. It is describes as instance of `AndyDune\ConditionalExecution\Check\CheckAbstract`.
 
-For now there is one class `ArrayValueWithKeyNotEmpty` in library. You may create own custom classes.
+You may create own custom classes and use.
+
+### ArrayValueWithKeyNotEmpty
+
+It checks array value with key is not empty.
 
 ```php
 use AndyDune\ConditionalExecution\Check\ArrayValueWithKeyNotEmpty;
@@ -164,6 +168,34 @@ $condition->check($array); // result is true
 $condition->setNegative();
 $condition->check($array);  // result is false
 ```
+
+### ArrayHasNotEmptyValueOrKeyNotExist
+
+Given array key must not exist or keep value *== true* 
+
+```php
+use AndyDune\ConditionalExecution\Check\ArrayHasNotEmptyValueOrKeyNotExist;
+use AndyDune\ConditionalExecution\ConditionHolder;
+
+$array = [
+    'one' => 1,
+    'two' => '',
+    'three' => 0
+];
+
+$condition = new ConditionHolder();
+$condition->add(new ArrayHasNotEmptyValueOrKeyNotExist('one'))->check($array); // true
+
+$condition = new ConditionHolder();
+$condition->add(new ArrayHasNotEmptyValueOrKeyNotExist('two'))->check($array); // false
+
+$condition = new ConditionHolder();
+$condition->add(new ArrayHasNotEmptyValueOrKeyNotExist('three'))->check($array); // false
+
+$condition = new ConditionHolder();
+$condition->add(new ArrayHasNotEmptyValueOrKeyNotExist('four'))->check($array); // true
+```
+
 
 Execute functions in list for get first result 
 ------------
