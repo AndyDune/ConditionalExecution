@@ -123,6 +123,20 @@ class ConditionHolder
 
         $result = (bool)$result;
 
+        if ($this->bindAnd and !$result) {
+            if ($this->negative) {
+                return true;
+            }
+            return $result;
+        }
+
+        if (!$this->bindAnd and $result) {
+            if ($this->negative) {
+                return false;
+            }
+            return $result;
+        }
+
         foreach($array as $condition) {
             if ($condition instanceof ConditionHolder or $condition instanceof CheckValue) {
                 $condition = $condition->check($value);
