@@ -152,9 +152,9 @@ $instance->chack(1); // returns false
 
 ## Check classes for checks of any complexity
 
-There is mechanic for checks of any complexity. It is describes as instance of `AndyDune\ConditionalExecution\Check\CheckAbstract`.
+There is mechanic for check of any complexity. It is describes as instance of `AndyDune\ConditionalExecution\Check\CheckAbstract`.
 
-You may create own custom classes and use.
+You may create your own custom class and use it.
 
 ### ArrayValueWithKeyNotEmpty
 
